@@ -1,0 +1,9 @@
+rootProject.name = "ensd-web"
+include ':app'
+include ':web-module'
+include ':web-export'
+try {
+    apply from: new File('../ensd-dependency/module_dependency.gradle')
+} catch (Exception e) {
+    e.printStackTrace()
+}

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/transparent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/web_call_dialog_bg_white"
+            android:orientation="vertical"
+            android:paddingBottom="15dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:text="联系人工客服"
+                    android:textColor="#333333"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/web_iv_close"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginRight="12dp"
+                    android:src="@drawable/web_call_dialog_icon_close" />
+
+            </RelativeLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="@dimen/dp_24">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/web_call_mobile_icon" />
+
+                <TextView
+                    android:id="@+id/web_tv_call"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="400-839-6555"
+                    android:textColor="#333333"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <Button
+                    android:id="@+id/web_btn_cancel"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5.5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/web_call_left_confirm_bg"
+                    android:text="取消"
+                    android:textColor="#333333"
+                    android:textSize="12sp" />
+
+
+                <Button
+                    android:id="@+id/web_btn_call"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="5.5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/web_call_right_confirm_bg"
+                    android:text="呼叫"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</layout>

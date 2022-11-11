@@ -1,0 +1,72 @@
+import ejiayou.composing.builds.Testing
+import ejiayou.composing.builds.ThirdLib
+
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.kapt'
+    id 'kotlin-parcelize'
+    id 'maven-publish'
+    id 'ejiayou.composing.builds'
+}
+//kotlin 配置
+kapt {
+    arguments {
+        //根据模块名来命名路由根节点
+        arg("AROUTER_MODULE_NAME", project.getName())
+        //生成Json文件
+        //arg("AROUTER_GENERATE_DOC", "enable")，kotlin中使用最新版本不要这句话，否则会报错，具体错误信息请看本博客中kotlin依赖最新ARouter的坑
+    }
+}
+android {
+    compileSdk 30
+
+    defaultConfig {
+        applicationId "ejiayou.web"
+        minSdk 21
+        targetSdk 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    packagingOptions { exclude 'META-INF/rxjava.properties' }
+
+
+
+    buildFeatures {
+        dataBinding true
+    }
+}
+
+dependencies {
+    // 以远程 module 的方式依赖组件
+//    implementation 'com.github.nearbyren:ensd-common:v1.3.3'
+    // 以 本地组件 module 的方式依赖组件
+//    implementation project(path: ':common-module')
+
+    testImplementation Testing.jUnit
+    androidTestImplementation Testing.androidJunit
+    androidTestImplementation Testing.espresso
+    api ThirdLib.Arouter.arouterApi
+    kapt ThirdLib.Arouter.arouterCompiler
+    api project(path: ':web-module')
+
+}

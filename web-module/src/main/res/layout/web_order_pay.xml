@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/app_content_bg"
+        android:orientation="vertical">
+
+        <include layout="@layout/common_toolbar_title" />
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:indeterminateTint="@android:color/holo_blue_light"
+            android:indeterminateTintMode="src_atop"
+            android:max="100"
+            android:progress="0"
+            android:progressDrawable="@drawable/web_progress" />
+
+        <LinearLayout
+            android:id="@+id/webViewContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</layout>

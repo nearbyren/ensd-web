@@ -1,0 +1,89 @@
+import ejiayou.composing.builds.Testing
+import ejiayou.composing.builds.ThirdLib
+
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.kapt'
+    id 'kotlin-parcelize'
+    id 'maven-publish'
+    id 'ejiayou.composing.builds'
+}
+//应用上传maven
+apply from: 'maven.gradle'
+//kotlin 配置
+kapt {
+    arguments {
+        //根据模块名来命名路由根节点
+        arg("AROUTER_MODULE_NAME", project.getName())
+        //生成Json文件
+        //arg("AROUTER_GENERATE_DOC", "enable")，kotlin中使用最新版本不要这句话，否则会报错，具体错误信息请看本博客中kotlin依赖最新ARouter的坑
+    }
+}
+android {
+    compileSdk 30
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+
+    }
+    sourceSets {
+        main {
+            if (isModuleType == "lib") {
+                manifest.srcFile 'src/main/module/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
+            }
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    packagingOptions { exclude 'META-INF/rxjava.properties' }
+    //设置了resourcePrefix值后，所有的资源名必须以指定的字符串做前缀，否则会报错。
+    //但是resourcePrefix这个值只能限定xml里面的资源，并不能限定图片资源，所有图片资源仍然需要手动去修改资源名。
+    resourcePrefix "web_"
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+}
+dependencies {
+    testImplementation Testing.jUnit
+    androidTestImplementation Testing.androidJunit
+    androidTestImplementation Testing.espresso
+    //每个module必须引用 ARouter
+    implementation ThirdLib.Arouter.arouterApi
+    kapt ThirdLib.Arouter.arouterCompiler
+
+    //远程package 引用module方式
+    api 'ejiayou.common.module:common-module:1.0.0'
+    api 'ejiayou.coupon.export:coupon-export:1.0.0'
+    api 'ejiayou.station.export:station-export:1.0.0'
+    api 'ejiayou.login.export:login-export:1.0.0'
+    api 'ejiayou.libs.module:yinlian:1.0.0'
+    api 'ejiayou.libs.module:abcbank:1.0.0'
+     // 以 本地组件 module 的方式依赖组件
+    implementation project(path: ':web-export')
+
+}

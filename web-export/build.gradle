@@ -1,0 +1,51 @@
+import ejiayou.composing.builds.Testing
+
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.kapt'
+    id 'kotlin-parcelize'
+    id 'maven-publish'
+    id 'ejiayou.composing.builds'
+}
+//应用上传maven
+apply from: 'maven.gradle'
+android {
+    compileSdk 30
+
+    defaultConfig {
+        minSdk 21
+        targetSdk 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+dependencies {
+    testImplementation Testing.jUnit
+    androidTestImplementation Testing.androidJunit
+    androidTestImplementation Testing.espresso
+
+    //远程package 引用module方式
+    api 'ejiayou.common.module:common-module:1.0.0'
+}
+
