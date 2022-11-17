@@ -25,9 +25,11 @@ object WebUtil {
         // 如果访问的页面中要与Javascript交互，则webview必须设置支持Javascript
         // 若加载的 html 里有JS 在执行动画等操作，会造成资源浪费（CPU、电量）
         // 在 onStop 和 onResume 里分别把 setJavaScriptEnabled() 给设置成 false 和 true 即可
-        webView.settings.javaScriptEnabled = true // 允许加载js
+        // 允许加载js
+        webView.settings.javaScriptEnabled = true
         webView.overScrollMode = View.OVER_SCROLL_NEVER
-        webView.isNestedScrollingEnabled = false // 默认支持嵌套滑动
+        webView.isNestedScrollingEnabled = false
+        // 默认支持嵌套滑动
         webView.settings.pluginState = WebSettings.PluginState.ON
         // 设置自适应屏幕，两者合用
         webView.settings.useWideViewPort = true

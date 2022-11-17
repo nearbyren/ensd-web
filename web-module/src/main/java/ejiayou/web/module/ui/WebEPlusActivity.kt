@@ -356,8 +356,8 @@ class WebEPlusActivity : BaseAppWebBindActivity<WebPlusActivityBinding>() {
                 }).setTitle(title = "").setBgColor(R.color.white).build()
     }
 
-    override fun webPageFinished(view: WebView?, url: String?) {
-        super.webPageFinished(view, url)
+    override fun webPageTitle(view: WebView?, url: String?) {
+        super.webPageTitle(view, url)
         webTitle?.let {
             barHelper.util().setTitle(it)
         } ?: view?.let {

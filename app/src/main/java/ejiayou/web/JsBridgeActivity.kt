@@ -104,10 +104,10 @@ class JsBridgeActivity : AppCompatActivity(), View.OnClickListener {
         // If you loading remote web server,That can be ignored.
 //        mWebView!!.loadUrl("file:///android_asset/Demo.html")
 //        mWebView!!.loadUrl("http://172.18.5.161:8080/home")
-        mWebUrl?.let { mWebView!!.loadUrl(it) }
+//        mWebUrl?.let { mWebView!!.loadUrl(it) }
 
 //      index.html use SDBridge.js. This js file was create by webpack.
-//      mWebView!!.loadUrl("file:///android_asset/index.html")
+      mWebView!!.loadUrl("file:///android_asset/index.html")
 
 
     }

@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.alibaba.android.arouter.facade.annotation.Autowired
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.orhanobut.logger.Logger
 import ejiayou.common.module.ui.BarHelperConfig
 import ejiayou.common.module.ui.BarOnBackListener
 import ejiayou.web.module.base.BaseAppWebBindActivity
@@ -85,15 +86,15 @@ class WebMaskActivity : BaseAppWebBindActivity<WebMaskActivityBinding>() {
 
     override fun initBarHelperConfig(): BarHelperConfig? {
         return BarHelperConfig.builder().setBack(true)
-            .setOnBackListener(object : BarOnBackListener {
-                override fun onBackClick() {
-                    finishPage(this)
-                }
-            }).setTitle(title = "").setBgColor(R.color.white).build()
+                .setOnBackListener(object : BarOnBackListener {
+                    override fun onBackClick() {
+                        finishPage(this)
+                    }
+                }).setTitle(title = "").setBgColor(R.color.white).build()
     }
 
-    override fun webPageFinished(view: WebView?, url: String?) {
-        super.webPageFinished(view, url)
+    override fun webPageTitle(view: WebView?, url: String?) {
+        super.webPageTitle(view, url)
         webTitle?.let {
             barHelper.util().setTitle(it)
         } ?: view?.let {

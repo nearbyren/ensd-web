@@ -35,7 +35,7 @@ class WevStaticActivity : BaseAppWebBindActivity<WebStaticActivityBinding>() {
     var webUrl: String? = null
 
     override fun layoutRes(): Int {
-        return R.layout.web_mask_activity
+        return R.layout.web_static_activity
     }
 
     override fun injectTarget(): View? { return null
@@ -65,8 +65,8 @@ class WevStaticActivity : BaseAppWebBindActivity<WebStaticActivityBinding>() {
         return BarHelperConfig.builder().setBack(true).setTitle(title = "").setBgColor(R.color.white).build()
     }
 
-    override fun webPageFinished(view: WebView?, url: String?) {
-        super.webPageFinished(view, url)
+    override fun webPageTitle(view: WebView?, url: String?) {
+        super.webPageTitle(view, url)
         webTitle?.let {
             barHelper.util().setTitle(it)
         } ?: view?.let {

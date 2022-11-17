@@ -2,6 +2,7 @@ package ejiayou.web.module.web.jsbride
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.text.TextUtils
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import com.alibaba.fastjson.JSON
@@ -154,6 +155,7 @@ class WebViewJavascriptBridge(_context: Context?, _webView: WebView?) {
     }
 
     fun flushMap(jsonString: String?): HashMap<String, Any> {
+        if (TextUtils.isEmpty(jsonString)) return HashMap()
         val jsonObject: JSONObject
         try {
             jsonObject = JSONObject(jsonString)

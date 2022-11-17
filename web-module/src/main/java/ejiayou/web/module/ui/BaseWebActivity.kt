@@ -12,6 +12,7 @@ import android.widget.ProgressBar
 import androidx.core.view.isVisible
 import com.google.gson.Gson
 import com.leon.channel.helper.ChannelReaderUtil
+import com.orhanobut.logger.Logger
 import ejiayou.common.module.ui.BaseActivityKot
 import ejiayou.common.module.utils.*
 import ejiayou.coupon.export.router.CouponServiceUtil
@@ -20,6 +21,7 @@ import ejiayou.station.export.router.StationServiceUtil
 import ejiayou.uikit.module.dpToPx
 import ejiayou.web.export.model.JsBridgeData
 import ejiayou.web.export.model.JsBridgeDto
+import ejiayou.web.export.router.WebServiceUtil
 import ejiayou.web.module.R
 import ejiayou.web.module.dialog.WebCallMobileDialog
 import ejiayou.web.module.web.jsbride.Callback
@@ -51,6 +53,8 @@ abstract class BaseWebActivity : BaseActivityKot() {
     }
 
     open fun webPageFinished(view: WebView?, url: String?) {}
+
+    open fun webPageTitle(view: WebView?, url: String?) {}
 
     //1.JsBridg 2.Routine
     var currentWebView: String = currentJsBridge
@@ -222,6 +226,13 @@ abstract class BaseWebActivity : BaseActivityKot() {
                 it.isVisible = newProgress != 100
                 it.progress = newProgress
             }
+
+        }
+
+        override fun onReceivedTitle(view: WebView?, title: String?) {
+            super.onReceivedTitle(view, title)
+            Logger.d("来了 $title")
+            webPageTitle(view, title)
         }
     }
 
@@ -524,6 +535,12 @@ abstract class BaseWebActivity : BaseActivityKot() {
                 it.progress = newProgress
             }
         }
+
+        override fun onReceivedTitle(view: WebView?, title: String?) {
+            super.onReceivedTitle(view, title)
+            Logger.d("来了 $title")
+            webPageTitle(view, title)
+        }
     }
 
     /***
@@ -539,11 +556,7 @@ abstract class BaseWebActivity : BaseActivityKot() {
         callback.call(result)
     }
 
-    private fun statusBarUi(
-        isVisible: Boolean = true,
-        backgColor: String = "#FFFFFF",
-        titleColor: String = "#8f000000"
-    ) {
+    private fun statusBarUi(isVisible: Boolean = true, backgColor: String = "#FFFFFF", titleColor: String = "#8f000000") {
         this.runOnUiThread {
             barHelper.util().toolBarRoot(isVisible, backgColor, titleColor)
         }
