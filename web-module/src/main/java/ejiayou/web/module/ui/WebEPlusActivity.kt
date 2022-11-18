@@ -86,7 +86,9 @@ class WebEPlusActivity : BaseAppWebBindActivity<WebPlusActivityBinding>() {
      * eplus 支付方式
      */
     private fun initPayEplus() {
-        //支付宝支付
+        /***
+         * 描述： 支付宝支付
+         */
         javascriptBridge?.register("jsAliPay", object : Handler {
             override fun handler(map: HashMap<String, Any>?, json: String, callback: Callback) {
                 println("WebViewJavascriptBridge ->  jsAliPay map = $map - json = $json ")
@@ -100,7 +102,9 @@ class WebEPlusActivity : BaseAppWebBindActivity<WebPlusActivityBinding>() {
             }
         })
 
-        // 云闪付支付
+        /***
+         * 描述： 云闪付支付
+         */
         javascriptBridge?.register("jsUpPay", object : Handler {
             override fun handler(map: HashMap<String, Any>?, json: String, callback: Callback) {
                 println("WebViewJavascriptBridge ->  jsUpPay map = $map - json = $json ")
@@ -113,7 +117,9 @@ class WebEPlusActivity : BaseAppWebBindActivity<WebPlusActivityBinding>() {
                 }
             }
         })
-        //农行支付
+        /***
+         * 描述： 农行支付
+         */
         javascriptBridge?.register("jsAbcPay", object : Handler {
             override fun handler(map: HashMap<String, Any>?, json: String, callback: Callback) {
                 println("WebViewJavascriptBridge ->  jsAbcPay map = $map - json = $json ")
@@ -149,6 +155,9 @@ class WebEPlusActivity : BaseAppWebBindActivity<WebPlusActivityBinding>() {
             println("WebViewJavascriptBridge ->  PAY_UNITE_NOTICE_WEB_RESULT  = $it")
             val result = HashMap<String, Any>()
             result["extMsg"] = it
+            /***
+             * 描述： 查询订单状态
+             */
             javascriptBridge?.call("jsMiniProgramResp", result, object : Callback {
                 override fun call(map: HashMap<String, Any>?) {
                     println("WebViewJavascriptBridge ->  jsMiniProgramResp map = $map ")

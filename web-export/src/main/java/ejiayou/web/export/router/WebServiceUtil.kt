@@ -55,7 +55,7 @@ open class WebServiceUtil {
             postcard.navigation()
         }
 
-        fun navigateSharePage(webTitle: String? = null, webUrl: String? = null, webData: String? = null) {
+        fun navigateStaticPage(webTitle: String? = null, webUrl: String? = null, webData: String? = null) {
             val postcard = ARouter.getInstance().build(WebRouterTable.PATH_WEB_SHARED)
             webTitle?.let {
                 postcard.withString("webTitle", webTitle)

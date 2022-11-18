@@ -255,6 +255,9 @@ abstract class BaseWebActivity : BaseActivityKot() {
                     println("WebViewJavascriptBridge ->  post -> string = $string ")
                 }
             }
+            /***
+             * 描述： Web 页面配置
+             */
             javascriptBridge?.register("jsWebConfiguration", object : Handler {
                 override fun handler(map: HashMap<String, Any>?, json: String, callback: Callback) {
                     println("WebViewJavascriptBridge ->  jsWebConfiguration map = $map - json = $json ")
@@ -266,6 +269,9 @@ abstract class BaseWebActivity : BaseActivityKot() {
                     }
                 }
             })
+            /***
+             * 描述： 获取用户位置信息
+             */
             javascriptBridge?.register("jsLocationInfo", object : Handler {
                 override fun handler(map: HashMap<String, Any>?, json: String, callback: Callback) {
                     println("WebViewJavascriptBridge ->  jsLocationInfo map = $map - json = $json ")
@@ -287,6 +293,9 @@ abstract class BaseWebActivity : BaseActivityKot() {
                     )
                 }
             })
+            /***
+             * 描述： 跳转指定原生页面
+             */
             javascriptBridge?.register("jsJumpNative", object : Handler {
                 override fun handler(map: HashMap<String, Any>?, json: String, callback: Callback) {
                     println("WebViewJavascriptBridge ->  jsJumpNative map = $map - json = $json ")
@@ -317,6 +326,9 @@ abstract class BaseWebActivity : BaseActivityKot() {
                 }
             })
 
+            /***
+             * 描述： 跳转小程序
+             */
             javascriptBridge?.register("jsJumpMiniProgram", object : Handler {
                 override fun handler(map: HashMap<String, Any>?, json: String, callback: Callback) {
                     println("WebViewJavascriptBridge ->  jsJumpMiniProgram map = $map - json = $json ")
@@ -332,6 +344,9 @@ abstract class BaseWebActivity : BaseActivityKot() {
                 }
             })
 
+            /***
+             * 描述： 微信分享 url（小程序，微信好友，朋友圈）
+             */
             javascriptBridge?.register("jsShare", object : Handler {
                 override fun handler(map: HashMap<String, Any>?, json: String, callback: Callback) {
                     println("WebViewJavascriptBridge ->  jsShare map = $map - json = $json ")
@@ -375,6 +390,9 @@ abstract class BaseWebActivity : BaseActivityKot() {
                 }
             })
 
+            /***
+             * 描述： 获取 APP 基础信息
+             */
             javascriptBridge?.register("jsAppInfo", object : Handler {
                 override fun handler(map: HashMap<String, Any>?, json: String, callback: Callback) {
                     println("WebViewJavascriptBridge ->  jsAppInfo map = $map - json = $json ")
@@ -403,6 +421,9 @@ abstract class BaseWebActivity : BaseActivityKot() {
                 }
             })
 
+            /***
+             * 描述： 获取用户基础信息
+             */
             javascriptBridge?.register("jsUserInfo", object : Handler {
                 override fun handler(map: HashMap<String, Any>?, json: String, callback: Callback) {
                     println("WebViewJavascriptBridge ->  jsUserInfo map = $map - json = $json ")
@@ -432,29 +453,19 @@ abstract class BaseWebActivity : BaseActivityKot() {
                 }
             })
 
+            /***
+             * 描述： 关闭当前 Web 页面
+             */
             javascriptBridge?.register("jsCloseWeb", object : Handler {
                 override fun handler(map: HashMap<String, Any>?, json: String, callback: Callback) {
                     println("WebViewJavascriptBridge ->  jsCloseWeb map = $map - json = $json ")
-//                    val adCode = MMKVUtil.decode("adCode", "440300")
-//                    val longitude = MMKVUtil.decode("longitude", "114.062827")
-//                    val latitude = MMKVUtil.decode("latitude", "22.54899")
-//                    val cityName = MMKVUtil.decode("cityName", "深圳市")
-//                    val jsBridgeData = JsBridgeData(
-//                        longitude = longitude.toString(),
-//                        latitude = latitude.toString(),
-//                        adCode = adCode.toString(),
-//                        cityName = cityName.toString(),
-//                    )
-//                    sendWebResData(
-//                        code = 1,
-//                        message = "调用成功",
-//                        data = jsBridgeData,
-//                        callback = callback
-//                    )
                     sendWebResData(code = 1, message = "调用成功", callback = callback)
                     finishPage(this@BaseWebActivity)
                 }
             })
+            /***
+             * 描述： 跳转新的 Web 页面
+             */
             javascriptBridge?.register("jsOpenWeb", object : Handler {
                 override fun handler(map: HashMap<String, Any>?, json: String, callback: Callback) {
                     println("WebViewJavascriptBridge ->  jsOpenWeb map = $map - json = $json ")
@@ -463,7 +474,7 @@ abstract class BaseWebActivity : BaseActivityKot() {
                         sendWebResData(code = 1, message = "调用成功", callback = callback)
                         dao.url?.let { url ->
                             this@BaseWebActivity.runOnUiThread {
-                                mWebJsBridge.loadUrl(url)
+                                 WebServiceUtil.navigateMaskPage(webUrl = url)
                             }
                         }
 
