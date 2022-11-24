@@ -40,6 +40,13 @@ import java.lang.reflect.InvocationTargetException
  */
 abstract class BaseWebActivity : BaseActivityKot() {
 
+    /***
+     * 关于jsbridge注入失败问题
+     * 需要在以下方法注册,提升注入成功率
+     * onPageStarted
+     * onPageCommitVisible
+     * onProgressChanged
+     */
     companion object {
         const val currentJsBridge = "JsBridge"
         const val currentRoutine = "Routine"
@@ -474,7 +481,7 @@ abstract class BaseWebActivity : BaseActivityKot() {
                         sendWebResData(code = 1, message = "调用成功", callback = callback)
                         dao.url?.let { url ->
                             this@BaseWebActivity.runOnUiThread {
-                                 WebServiceUtil.navigateMaskPage(webUrl = url)
+                                WebServiceUtil.navigateMaskPage(webUrl = url)
                             }
                         }
 
@@ -493,13 +500,14 @@ abstract class BaseWebActivity : BaseActivityKot() {
         override fun onPageFinished(view: WebView, url: String) {
             super.onPageFinished(view, url)
             webPageFinished(view, url)
-            println("WebViewJavascriptBridge ->  jsBridge onPageFinished url = $url ")
+            println("WebViewJavascriptBridge ->  jsBridge 时机 onPageFinished url = $url ")
             webProgress?.let {
                 it.isVisible = false
             }
         }
 
         override fun shouldOverrideUrlLoading(view: WebView, url: String): Boolean {
+            println("WebViewJavascriptBridge ->  jsBridge 时机 shouldOverrideUrlLoading injectJavascript")
             //拨打电话
             if (url.startsWith(WebView.SCHEME_TEL)) {
                 goCallCustomer(url)
@@ -528,10 +536,23 @@ abstract class BaseWebActivity : BaseActivityKot() {
 
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
-            println("WebViewJavascriptBridge ->  jsBridge onPageStarted injectJavascript")
+            println("WebViewJavascriptBridge ->  jsBridge 时机 onPageStarted injectJavascript")
             webProgress?.let {
                 it.isVisible = true
             }
+            println("WebViewJavascriptBridge ->  jsBridge 时机 执行 onPageStarted  ")
+            javascriptBridge?.injectJavascript()
+        }
+
+        override fun onLoadResource(view: WebView?, url: String?) {
+            super.onLoadResource(view, url)
+            println("WebViewJavascriptBridge ->  jsBridge 时机 onLoadResource injectJavascript")
+        }
+
+        override fun onPageCommitVisible(view: WebView?, url: String?) {
+            super.onPageCommitVisible(view, url)
+            println("WebViewJavascriptBridge ->  jsBridge 时机 onPageCommitVisible injectJavascript")
+            println("WebViewJavascriptBridge ->  jsBridge 时机 执行 onPageCommitVisible  ")
             javascriptBridge?.injectJavascript()
         }
 
@@ -540,7 +561,13 @@ abstract class BaseWebActivity : BaseActivityKot() {
     inner class jsBridgeWebChromeClient : BaseWebChromeClient() {
         override fun onProgressChanged(view: WebView?, newProgress: Int) {
             super.onProgressChanged(view, newProgress)
-            println("WebViewJavascriptBridge ->  jsBridge onProgressChanged newProgress = $newProgress ")
+            println("WebViewJavascriptBridge ->  jsBridge 时机 jsBridgeWebChromeClient injectJavascript $newProgress")
+            when (newProgress) {
+                in 10..80 -> {
+                    println("WebViewJavascriptBridge ->  jsBridge 时机 执行  $newProgress")
+                    javascriptBridge?.injectJavascript()
+                }
+            }
             webProgress?.let {
                 it.isVisible = newProgress != 100
                 it.progress = newProgress
@@ -549,6 +576,7 @@ abstract class BaseWebActivity : BaseActivityKot() {
 
         override fun onReceivedTitle(view: WebView?, title: String?) {
             super.onReceivedTitle(view, title)
+            println("WebViewJavascriptBridge ->  jsBridge 时机 onReceivedTitle injectJavascript")
             Logger.d("来了 $title")
             webPageTitle(view, title)
         }

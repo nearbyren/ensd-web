@@ -27,8 +27,6 @@ class WebViewJavascriptBridge(_context: Context?, _webView: WebView?) {
     @SuppressLint("SetJavaScriptEnabled", "JavascriptInterface")
     fun setupBridge() {
         println("WebViewJavascriptBridge ->  setupBridge")
-        val webSettings = webView!!.settings
-        webSettings.javaScriptEnabled = true
         // 开启js支持
         webView!!.addJavascriptInterface(this, "normalPipe")
         webView!!.addJavascriptInterface(this, "consolePipe")
