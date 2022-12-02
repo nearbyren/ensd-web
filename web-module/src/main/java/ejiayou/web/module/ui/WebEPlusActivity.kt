@@ -175,7 +175,7 @@ class WebEPlusActivity : BaseAppWebBindActivity<WebPlusActivityBinding>() {
             if (bankABCAvaiable) {
                 var keyValue = tn.split("?", "=")
                 BankABCCaller.startBankABC(
-                    this, "net.iusky.yijiayou", "ejiayou.web.module.ui.JsBridgeWebActivity", "pay", keyValue[2]
+                    this, "net.iusky.yijiayou", "ejiayou.web.module.ui.WebEPlusActivity", "pay", keyValue[2]
                 )
             } else {
                 mWebRoutine.loadUrl(tn)
