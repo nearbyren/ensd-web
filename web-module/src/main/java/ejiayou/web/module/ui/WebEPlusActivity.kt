@@ -173,10 +173,8 @@ class WebEPlusActivity : BaseAppWebBindActivity<WebPlusActivityBinding>() {
             //false 未安装 true 安装
             val bankABCAvaiable = BankABCCaller.isBankABCAvaiable(this)
             if (bankABCAvaiable) {
-                var keyValue = tn.split("?", "=")
-                BankABCCaller.startBankABC(
-                    this, "net.iusky.yijiayou", "ejiayou.web.module.ui.WebEPlusActivity", "pay", keyValue[2]
-                )
+                val keyValue = tn.split("?", "=")
+                BankABCCaller.startBankABC(this, "net.iusky.yijiayou",  "ejiayou.web.module.ui.WebEPlusActivity", "pay", keyValue[2])
             } else {
                 mWebRoutine.loadUrl(tn)
                 initWebViewType(currentRoutine)
@@ -257,6 +255,7 @@ class WebEPlusActivity : BaseAppWebBindActivity<WebPlusActivityBinding>() {
             Logger.d("支付方式 农行回调参数：$param")
             if (param == null) return
             callback?.let {
+                Logger.d("支付方式 执行关闭加载框")
                 sendWebPayResData(code = 1, message = "调用成功", callback = it)
             }
 //            val params = param.split("&")

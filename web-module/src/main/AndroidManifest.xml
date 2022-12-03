@@ -3,10 +3,10 @@
     package="ejiayou.web.module">
 
     <application>
-
+        <!--农行关键必须设置true   android:exported="true" -->
         <activity
             android:name=".ui.WebEPlusActivity"
-            android:exported="false"
+            android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/Theme.App" />
         <activity
