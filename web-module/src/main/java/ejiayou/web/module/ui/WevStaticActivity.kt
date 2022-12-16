@@ -53,6 +53,7 @@ class WevStaticActivity : BaseAppWebBindActivity<WebStaticActivityBinding>() {
     override fun initialize(savedInstanceState: Bundle?) {
         super.initialize(savedInstanceState)
         initWebViewType(currentRoutine)
+        webUrl = "file:///android_asset/index.html"
         webUrl?.let { mWebRoutine.loadUrl(it) }
         webViewContainer.addView(mWebRoutine, LinearLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,

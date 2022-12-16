@@ -69,7 +69,7 @@ class WebOrderPayActivity : BaseAppWebBindActivity<WebOrderPayBinding>() {
                 )
             )
             val params = mutableMapOf<String, String>()
-            val adCode = MMKVUtil.decode("adCode", "")
+            val adCode = MMKVUtil.decode("adCode", "440300")
             params["clientType"] = "2"
             params["sourceType"] = "1"
             params["customScence"] = "1"

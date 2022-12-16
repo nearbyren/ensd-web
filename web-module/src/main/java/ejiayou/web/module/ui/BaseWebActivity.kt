@@ -202,7 +202,10 @@ abstract class BaseWebActivity : BaseActivityKot() {
                 url.startsWith("bankabc://") ||
                 url.startsWith("bocom://") ||
                 url.startsWith("tmast://") ||
-                url.startsWith("weixin://")
+                url.startsWith("weixin://")||
+                url.startsWith("ygmxapp://")||
+                url.startsWith("ejy://"
+                )
             ) {
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)

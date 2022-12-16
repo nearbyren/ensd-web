@@ -272,7 +272,7 @@ class WebEPlusActivity : BaseAppWebBindActivity<WebPlusActivityBinding>() {
 //            }
 
         } catch (e: Exception) {
-            Logger.d("农行回调参数：$e")
+            e.printStackTrace()
         }
     }
 

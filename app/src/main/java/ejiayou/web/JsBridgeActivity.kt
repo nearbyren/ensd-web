@@ -9,6 +9,7 @@ import android.view.View
 import android.webkit.*
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import ejiayou.web.module.ui.WevStaticActivity
 import ejiayou.web.module.web.jsbride.Callback
 import ejiayou.web.module.web.jsbride.ConsolePipe
 import ejiayou.web.module.web.jsbride.Handler
@@ -60,8 +61,10 @@ class JsBridgeActivity : AppCompatActivity(), View.OnClickListener {
 
         // For Android 5.0+会调用此方法
         //针对 Android 5.0+
-        override fun onShowFileChooser(webView: WebView, valueCallback: ValueCallback<Array<Uri>>,
-            fileChooserParams: FileChooserParams): Boolean {
+        override fun onShowFileChooser(
+            webView: WebView, valueCallback: ValueCallback<Array<Uri>>,
+            fileChooserParams: FileChooserParams
+        ): Boolean {
 //            mUploadCallbackAboveL = filePathCallback;
             val i = Intent(Intent.ACTION_GET_CONTENT)
             i.addCategory(Intent.CATEGORY_OPENABLE);
@@ -107,8 +110,8 @@ class JsBridgeActivity : AppCompatActivity(), View.OnClickListener {
 //        mWebUrl?.let { mWebView!!.loadUrl(it) }
 
 //      index.html use SDBridge.js. This js file was create by webpack.
-      mWebView!!.loadUrl("file:///android_asset/index.html")
-
+        mWebView!!.loadUrl("file:///android_asset/index.html")
+        startActivity(Intent(this, WevStaticActivity::class.java))
 
     }
 
