@@ -12,12 +12,12 @@ import android.webkit.WebViewClient
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import com.orhanobut.logger.Logger
 
 open class BaseWebView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null
 ) : WebView(context, attrs), LifecycleEventObserver {
 
-    private val TAG = "BaseWebView"
     init {
         // WebView 调试模式开关
         setWebContentsDebuggingEnabled(true)
@@ -31,7 +31,8 @@ open class BaseWebView @JvmOverloads constructor(
 //        addJavascriptInterface(this, "bridge")
     }
 
-   /* *//**
+    /* */
+    /**
      * 桥接
      *//*
     @JavascriptInterface
@@ -50,7 +51,8 @@ open class BaseWebView @JvmOverloads constructor(
         }
     }
 
-    *//**
+    */
+    /**
      * 桥接回调
      *//*
     fun postBridgeCallback(key: String?, data: String?) {
@@ -97,15 +99,15 @@ open class BaseWebView @JvmOverloads constructor(
 
         when (event) {
             Lifecycle.Event.ON_RESUME -> {
-                Log.d(TAG, "onStateChanged -> ON_RESUME")
+                Logger.d("onStateChanged -> ON_RESUME")
                 onResume()
             }
             Lifecycle.Event.ON_STOP -> {
-                Log.d(TAG, "onStateChanged -> ON_STOP")
+                Logger.d("onStateChanged -> ON_STOP")
                 onPause()
             }
             Lifecycle.Event.ON_DESTROY -> {
-                Log.d(TAG, "onStateChanged -> ON_DESTROY")
+                Logger.d("onStateChanged -> ON_DESTROY")
                 source.lifecycle.removeObserver(this)
                 onDestroy()
             }
@@ -168,7 +170,7 @@ open class BaseWebView @JvmOverloads constructor(
 
     private var mBlankMonitorCallback: BlankMonitorCallback? = null
 
-    fun setBlankMonitorCallback(callback: BlankMonitorCallback){
+    fun setBlankMonitorCallback(callback: BlankMonitorCallback) {
         this.mBlankMonitorCallback = callback
     }
 
@@ -179,7 +181,7 @@ open class BaseWebView @JvmOverloads constructor(
      * 5s 后开始执行白屏检测任务 时间可以适当修改
      */
     fun postBlankMonitorRunnable() {
-        Log.d(TAG, "白屏检测任务 5s 后执行")
+        Logger.d("白屏检测任务 5s 后执行")
         removeCallbacks(mBlankMonitorRunnable)
         postDelayed(mBlankMonitorRunnable, 5000)
     }
@@ -188,7 +190,7 @@ open class BaseWebView @JvmOverloads constructor(
      * 取消白屏检测任务
      */
     fun removeBlankMonitorRunnable() {
-        Log.d(TAG, "白屏检测任务取消执行")
+        Logger.d("白屏检测任务取消执行")
         removeCallbacks(mBlankMonitorRunnable)
     }
 
@@ -216,15 +218,13 @@ open class BaseWebView @JvmOverloads constructor(
                         // 计数 其实记录一种就可以
                         if (snapshot.getPixel(x, y) == -1) {
                             whitePixelCount++
-                        }else{
+                        } else {
                             otherPixelCount++
                         }
                     }
                 }
 
-                Log.d(TAG, "白屏检测任务：像素点总数为 $pixelCount")
-                Log.d(TAG, "白屏检测任务：白色像素点计数为 $whitePixelCount")
-                Log.d(TAG, "白屏检测任务：其他颜色像素点计数为 $otherPixelCount")
+                Logger.d("白屏检测任务：像素点总数为 $pixelCount - 白屏检测任务：白色像素点计数为 $whitePixelCount - 白屏检测任务：其他颜色像素点计数为 $otherPixelCount")
 
                 // 回收 bitmap
                 snapshot.recycle()

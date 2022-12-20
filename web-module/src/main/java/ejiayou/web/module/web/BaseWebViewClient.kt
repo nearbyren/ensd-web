@@ -11,24 +11,24 @@ import android.webkit.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
+import com.orhanobut.logger.Logger
+import ejiayou.common.module.web.WebViewInterceptRequestProxy
 import kotlinx.coroutines.runBlocking
 import okio.ByteString.Companion.encodeUtf8
 import java.io.File
 
 open class BaseWebViewClient : WebViewClient() {
 
-    private val TAG = "BaseWebViewClient"
-
     override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
         super.onPageStarted(view, url, favicon)
-        if (view is BaseWebView){
+        if (view is BaseWebView) {
             view.postBlankMonitorRunnable()
         }
     }
 
     override fun onPageFinished(view: WebView, url: String) {
         super.onPageFinished(view, url)
-        if (view is BaseWebView){
+        if (view is BaseWebView) {
             view.removeBlankMonitorRunnable()
         }
     }
@@ -37,55 +37,34 @@ open class BaseWebViewClient : WebViewClient() {
      * 证书校验错误
      */
     @SuppressLint("WebViewClientOnReceivedSslError")
-    override fun onReceivedSslError(
-        view: WebView,
-        handler: SslErrorHandler,
-        error: SslError
-    ) {
+    override fun onReceivedSslError(view: WebView, handler: SslErrorHandler, error: SslError) {
         AlertDialog.Builder(view.context)
-            .setTitle("提示")
-            .setMessage("当前网站安全证书已过期或不可信\n是否继续浏览?")
-            .setPositiveButton("继续浏览") { dialog, which ->
-                dialog?.dismiss()
-                handler.proceed()
-            }
-            .setNegativeButton("返回上一页") { dialog, which ->
-                dialog?.dismiss()
-                handler.cancel()
-            }
-            .create()
-            .show()
+                .setTitle("提示")
+                .setMessage("当前网站安全证书已过期或不可信\n是否继续浏览?")
+                .setPositiveButton("继续浏览") { dialog, which ->
+                    dialog?.dismiss()
+                    handler.proceed()
+                }
+                .setNegativeButton("返回上一页") { dialog, which ->
+                    dialog?.dismiss()
+                    handler.cancel()
+                }
+                .create()
+                .show()
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
-    override fun onReceivedError(
-        view: WebView,
-        request: WebResourceRequest,
-        error: WebResourceError
-    ) {
+    override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
         if (request.isForMainFrame) {
-            onReceivedError(
-                view,
-                error.errorCode,
-                error.description.toString(),
-                request.url.toString()
-            )
+            onReceivedError(view, error.errorCode, error.description.toString(), request.url.toString())
         }
     }
 
-    override fun onReceivedError(
-        view: WebView?,
-        errorCode: Int,
-        description: String?,
-        failingUrl: String?
-    ) {
+    override fun onReceivedError(view: WebView?, errorCode: Int, description: String?, failingUrl: String?) {
         super.onReceivedError(view, errorCode, description, failingUrl)
     }
 
-    override fun shouldOverrideUrlLoading(
-        view: WebView,
-        request: WebResourceRequest
-    ): Boolean {
+    override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
         return shouldOverrideUrlLoading(view, request.url.toString())
     }
 
@@ -99,14 +78,9 @@ open class BaseWebViewClient : WebViewClient() {
         return true
     }
 
-    override fun shouldInterceptRequest(
-        view: WebView,
-        request: WebResourceRequest
-    ): WebResourceResponse? {
-        Log.d(TAG, "拦截资源URL：${request.url}")
-        Log.d(TAG, "拦截资源HEADER：${request.requestHeaders}")
-
-        var webResourceResponse: WebResourceResponse? = null
+    override fun shouldInterceptRequest(view: WebView, request: WebResourceRequest): WebResourceResponse? {
+        Logger.d("拦截资源URL：${request.url} - 拦截资源HEADER：${request.requestHeaders}")
+/*        var webResourceResponse: WebResourceResponse? = null
 
         // 如果是 assets 目录下的文件
         if (isAssetsResource(request)) {
@@ -120,8 +94,9 @@ open class BaseWebViewClient : WebViewClient() {
 
         if (webResourceResponse == null) {
             webResourceResponse = super.shouldInterceptRequest(view, request)
-        }
-        return webResourceResponse
+        }*/
+        return WebViewInterceptRequestProxy.shouldInterceptRequest(request)
+            ?: super.shouldInterceptRequest(view, request)
     }
 
     private fun isAssetsResource(webRequest: WebResourceRequest): Boolean {

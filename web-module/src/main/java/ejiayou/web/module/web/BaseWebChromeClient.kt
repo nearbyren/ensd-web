@@ -6,16 +6,16 @@ import android.webkit.JsResult
 import android.webkit.WebChromeClient
 import android.webkit.WebView
 import androidx.appcompat.app.AlertDialog
+import com.orhanobut.logger.Logger
 
 open class BaseWebChromeClient : WebChromeClient() {
 
-    private val TAG = "BaseWebChromeClient"
 
     /**
      * 网页控制台输入日志
      */
     override fun onConsoleMessage(consoleMessage: ConsoleMessage): Boolean {
-        Log.d(TAG, "onConsoleMessage() -> ${consoleMessage.message()}")
+        Logger.d("onConsoleMessage() -> ${consoleMessage.message()}")
         return super.onConsoleMessage(consoleMessage)
     }
 

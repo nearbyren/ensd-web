@@ -1,5 +1,6 @@
 package ejiayou.web.module.web
 
+import ejiayou.common.module.api.interceptor.HttpLoggingInterceptor
 import okhttp3.OkHttpClient
 //import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -22,7 +23,7 @@ object HttpUtils {
             connectTimeout(30, TimeUnit.SECONDS)
             readTimeout(30, TimeUnit.SECONDS)
             writeTimeout(30, TimeUnit.SECONDS)
-//            addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
+            addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
         }
     }
 }
