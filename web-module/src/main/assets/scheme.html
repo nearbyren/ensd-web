@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>scheme协议 H5启动应用</title>
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.js">
+    </script>
+
+</head>
+<body>
+<a href="module://ejiayou.com/path?param=1">URL Schemes path </a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="https://ejiayou.com/?param=1">URL Schemes not path</a>
+<br/>
+<br/>
+<br/>
+<!--
+intent://[host]#Intent;package=[String];action=[String];category=[String];component=[String];scheme=[String];S.key=[String];i.key=[Int];end;
+
+intent:
+   HOST/URI-path // Optional host
+   #Intent;
+      package=[string];
+      action=[string];
+      category=[string];
+      component=[string];
+      scheme=[string];
+   end;
+
+    String => 'S'
+    Boolean =>'B'
+    Byte => 'b'
+    Character => 'c'
+    Double => 'd'
+    Float => 'f'
+    Integer => 'i'
+    Long => 'l'
+    Short => 's'
+-->
+<a href="intent://www.ejiayou.com#Intent;package=ejiayou.login;category=android.intent.category.BROWSABLE;scheme=https;S.browser_fallback_url=https://www.ejiayou.com;i.v=10000;end;">Intent打开</a>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="intent://ejiayou.com#Intent;package=ejiayou.login;category=android.intent.category.BROWSABLE;scheme=module;S.browser_fallback_url=https://www.ejiayou.com;i.v=10000;end;">Intent打开</a>
+
+</body>
+</html>

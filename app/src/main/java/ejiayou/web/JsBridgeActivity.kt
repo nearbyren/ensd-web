@@ -1,6 +1,7 @@
 package ejiayou.web
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -9,12 +10,15 @@ import android.view.View
 import android.webkit.*
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.orhanobut.logger.Logger
+import ejiayou.web.module.ui.WebMaskActivity
 import ejiayou.web.module.ui.WevStaticActivity
 import ejiayou.web.module.web.jsbride.Callback
 import ejiayou.web.module.web.jsbride.ConsolePipe
 import ejiayou.web.module.web.jsbride.Handler
 import ejiayou.web.module.web.jsbride.WebViewJavascriptBridge
 import java.lang.reflect.InvocationTargetException
+import java.net.URISyntaxException
 
 class JsBridgeActivity : AppCompatActivity(), View.OnClickListener {
     private var mWebView: WebView? = null
@@ -110,15 +114,69 @@ class JsBridgeActivity : AppCompatActivity(), View.OnClickListener {
 //        mWebUrl?.let { mWebView!!.loadUrl(it) }
 
 //      index.html use SDBridge.js. This js file was create by webpack.
-        mWebView!!.loadUrl("file:///android_asset/index.html")
-        startActivity(Intent(this, WevStaticActivity::class.java))
+//        mWebView!!.loadUrl("file:///android_asset/index.html")
+        mWebView!!.loadUrl("file:///android_asset/scheme.html")
 
+    }
+
+    private fun gotoOtherAppBySchemeProtocol(url: Uri) {
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, url)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+            startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            //通过直接处理抛出的ActivityNotFound异常来确保程序不会崩溃
+            e.printStackTrace()
+        }
+    }
+
+    private fun gotoOtherAppByIntentProtocol(url: Uri) {
+        val stringUrl = url.toString()
+        val fallbackUrl: String = if (stringUrl.contains("S.browser_fallback_url")) {
+            stringUrl.substring(stringUrl.indexOf("S.browser_fallback_url"), stringUrl.indexOf(";end"))
+        } else {
+            ""
+        }
+        Logger.d("启动参数 fallbackUrl $fallbackUrl")
+
+        try {
+            val intent = Intent.parseUri(url.toString(), Intent.URI_INTENT_SCHEME)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED)
+            startActivity(intent)
+        } catch (e: URISyntaxException) {
+            e.printStackTrace()
+        } catch (e: ActivityNotFoundException) {
+            //通过直接处理抛出的ActivityNotFound异常来确保程序不会崩溃
+            e.printStackTrace()
+        }
     }
 
     private val webClient = object : WebViewClient() {
         override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
             println("shouldOverrideUrlLoading")
-            return false
+            val url = request?.url
+            val scheme = url?.scheme
+            val host = url?.host
+            when (scheme) {
+                "https" -> {
+                    //仅过滤某些host进行判断是否跳转，也可不过滤
+                    if ("ejiayou.com" == host) {
+                        gotoOtherAppBySchemeProtocol(url)
+                        return true
+                    }
+                }
+                "module" -> {
+                    gotoOtherAppBySchemeProtocol(url)
+                    return true
+                }
+                "intent" -> {
+                    gotoOtherAppByIntentProtocol(url)
+                    return true
+                }
+                else -> {
+                }
+            }
+            return super.shouldOverrideUrlLoading(view, request)
         }
 
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
