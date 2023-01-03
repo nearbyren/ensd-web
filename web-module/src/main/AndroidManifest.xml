@@ -23,6 +23,7 @@
             android:name=".ui.WebMaskActivity"
             android:exported="false"
             android:launchMode="singleTop"
-            android:theme="@style/Theme.App" />
+            android:theme="@style/Theme.App"
+            android:windowSoftInputMode="adjustPan" />
     </application>
 </manifest>

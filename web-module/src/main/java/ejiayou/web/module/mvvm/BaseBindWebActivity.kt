@@ -3,7 +3,7 @@ package ejiayou.web.module.mvvm
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.orhanobut.logger.Logger
-import ejiayou.web.module.ui.BaseWebActivity
+import ejiayou.web.module.base.BaseWebActivity
 
 /**
  * @author:

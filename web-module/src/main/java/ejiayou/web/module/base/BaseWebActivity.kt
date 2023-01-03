@@ -1,4 +1,4 @@
-package ejiayou.web.module.ui
+package ejiayou.web.module.base
 
 import android.content.Intent
 import android.graphics.Bitmap
@@ -127,6 +127,7 @@ abstract class BaseWebActivity : BaseActivityKot() {
 
     override fun initialize(savedInstanceState: Bundle?) {
         webProgress = addProgress()
+        AndroidBug5497Workaround.assistActivity(this)
         println("WebViewJavascriptBridge ->  initialize ")
         initWebViewType(currentWebView)
     }
@@ -202,10 +203,8 @@ abstract class BaseWebActivity : BaseActivityKot() {
                 url.startsWith("bankabc://") ||
                 url.startsWith("bocom://") ||
                 url.startsWith("tmast://") ||
-                url.startsWith("weixin://")||
-                url.startsWith("ygmxapp://")||
-                url.startsWith("ejy://"
-                )
+                url.startsWith("weixin://")
+
             ) {
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)

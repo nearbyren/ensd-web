@@ -37,7 +37,7 @@ object WebUtil {
         // 是否支持缩放，默认为true
         webView.settings.setSupportZoom(false)
         // 是否使用内置的缩放控件
-        webView.settings.builtInZoomControls = false
+        webView.settings.builtInZoomControls = true
         // 是否显示原生的缩放控件
         webView.settings.displayZoomControls = false
         // 设置文本缩放 默认 100
