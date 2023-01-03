@@ -6,13 +6,11 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.net.http.SslError
 import android.os.Build
-import android.util.Log
 import android.webkit.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
 import com.orhanobut.logger.Logger
-import ejiayou.common.module.web.WebViewInterceptRequestProxy
 import kotlinx.coroutines.runBlocking
 import okio.ByteString.Companion.encodeUtf8
 import java.io.File

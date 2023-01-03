@@ -1,4 +1,4 @@
-package ejiayou.common.module.web
+package ejiayou.web.module.web
 
 import android.app.Application
 import android.webkit.WebResourceRequest
