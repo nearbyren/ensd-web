@@ -379,6 +379,7 @@ abstract class BaseWebActivity : BaseActivityKot() {
                             "3" -> {
                                 map[WxUtil.SHARE_PATH] = jsBridgeDto.path.toString()
                                 map[WxUtil.SHARE_APP_ID] = jsBridgeDto.appId.toString()
+                                map[WxUtil.MINIPROGRAM_TYPE] = jsBridgeDto.miniprogramType.toString()
                                 Thread {
                                     try {
                                         WxUtil.shareToMiniProgram(this@BaseWebActivity, map, transaction = "shareToMiniProgram")
